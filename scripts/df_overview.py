@@ -5,21 +5,21 @@ class DfOverview:
     def __init__(self, df: pd.DataFrame) -> None:
         self.df = df
 
-    def missingValue(self) -> None:
+    def missing_value(self) -> None:
         nullSum = self.df.isna().sum()
         return [col for col in nullSum]
 
-    def uniqueValues(self) -> None:
+    def unique_values(self) -> None:
         return [self.getUniqueCount(column) for column in self.df]
 
     def percentage(self, list):
         return [str(round(((value/150001) * 100), 2)) + '%' for value in list]
 
-    def findStatisticalInformation(self, column):
+    def find_statistical_information(self, column):
         return self.df.groupby(column).size().agg(['count', 'min', 'max', 'mean', 'median'])
 
     def getOverview(self) -> None:
-        stat = [self.findStatisticalInformation(column) for column in self.df]
+        stat = [self.find_statistical_information(column) for column in self.df]
         _count = [int(i[0]) for i in stat]
         _min = [round((i[1]), 2) for i in stat]
         _max = [round((i[2]), 2) for i in stat]
@@ -41,8 +41,8 @@ class DfOverview:
             [column for column in self.df],
             _count,
             self.percentage(_count),
-            self.missingValue(),
-            self.percentage(self.missingValue()),
+            self.missing_value(),
+            self.percentage(self.missing_value()),
             _min,
             _max,
             _mean,
