@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 class DfOverview:
     def __init__(self, df: pd.DataFrame) -> None:
