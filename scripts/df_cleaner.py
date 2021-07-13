@@ -64,6 +64,11 @@ class DfCleaner():
         df[col] = df[col].fillna(method='bfill')
         return df[col]
 
+    def fill_with_mode(self, df: pd.DataFrame, columns):
+        for col in columns:
+            df[col] = df[col].fillna(df[col].mode()[0])
+        return df
+
     def percent_missing(self, df):
         totalCells = np.product(df.shape)
         missingCount = df.isnull().sum()
