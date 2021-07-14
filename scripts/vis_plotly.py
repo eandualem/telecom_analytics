@@ -1,3 +1,6 @@
+import plotly.express as px
+import plotly.graph_objects as go
+
 def myLayout(title, x_title, y_title, mode, width, height, margin):
     return go.Layout(
         title=title,
@@ -13,7 +16,6 @@ def myLayout(title, x_title, y_title, mode, width, height, margin):
         margin=margin
     )
 
-
 def BarTrace(x, y, names):
     trace = []
     for i in range(y.shape[0]):
@@ -24,7 +26,6 @@ def BarTrace(x, y, names):
         )
         trace.append(trace1)
     return trace
-
 
 def barChart(x, y, names, title="", x_title="x", y_title="y", mode='group', full=False):
     width = None
