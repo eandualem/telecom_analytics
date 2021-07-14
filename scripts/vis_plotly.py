@@ -1,5 +1,6 @@
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
 
 def myLayout(title, x_title, y_title, mode, width, height, margin):
     return go.Layout(
@@ -16,6 +17,7 @@ def myLayout(title, x_title, y_title, mode, width, height, margin):
         margin=margin
     )
 
+
 def BarTrace(x, y, names):
     trace = []
     for i in range(y.shape[0]):
@@ -26,6 +28,7 @@ def BarTrace(x, y, names):
         )
         trace.append(trace1)
     return trace
+
 
 def barChart(x, y, names, title="", x_title="x", y_title="y", mode='group', full=False):
     width = None
@@ -48,5 +51,16 @@ def scatter(df, x, y, c=None, s=None, mx=None, my=None, af=None, fit=None):
 
 
 def scatter3D(df, x, y, z, c=None, s=None, mx=None, my=None, af=None, fit=None):
-    fig = px.scatter_3d(df, x=x, y=y, z=z, color=c, size=s, animation_frame=af)
+    fig = px.scatter_3d(df, x=x, y=y, z=z, color=c, size=s,
+                        animation_frame=af, size_max=18)
+    fig.show()
+
+
+def histogram(hist_data, group_labels, bin_size=1, curve_type='normal', show_hist=True, invert=False):
+    if(invert):
+        hist_data.reverse()
+        group_labels.reverse()
+    fig = ff.create_distplot(hist_data, group_labels, bin_size=bin_size,
+                             curve_type=curve_type, show_hist=show_hist)
+    fig.update_layout()
     fig.show()
