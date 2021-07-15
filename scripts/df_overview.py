@@ -1,13 +1,14 @@
+from log import *
 import os
 import sys
 import pandas as pd
 import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join('../')))
-from log import *
 
 my_logger = get_logger("DfOverview")
 my_logger.debug("Loaded successfully!")
+
 
 class DfOverview:
     """
@@ -29,16 +30,13 @@ class DfOverview:
     def percentage(self, list):
         return [str(round(((value/150001) * 100), 2)) + '%' for value in list]
 
-    def find_statistical_information(self, column):
-        return self.df.groupby(column).size().agg(['count', 'min', 'max', 'mean', 'median'])
-
     def getOverview(self) -> None:
-        stat = [self.find_statistical_information(column) for column in self.df]
-        _count = [int(i[0]) for i in stat]
-        _min = [round((i[1]), 2) for i in stat]
-        _max = [round((i[2]), 2) for i in stat]
-        _mean = [round((i[3]), 2) for i in stat]
-        _median = [round((i[4]), 2) for i in stat]
+        stat = df.describe()
+        _count = [stat[column]['count'] for column in stat]
+        _min = [stat[column]['min'] for column in stat]
+        _max = [stat[column]['max'] for column in stat]
+        _mean = [stat[column]['mean'] for column in stat]
+        _median = [stat[column]['50%'] for column in stat]
 
         columns = [
             'label',
