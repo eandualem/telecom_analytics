@@ -1,4 +1,12 @@
+import os
+import sys
 import pandas as pd
+
+sys.path.append(os.path.abspath(os.path.join('../')))
+from log import *
+
+my_logger = get_logger("DfSelector")
+my_logger.debug("Testing custom logger")
 
 
 class DfSelector():

@@ -1,5 +1,13 @@
+import os
+import sys
 import pandas as pd
 import numpy as np
+
+sys.path.append(os.path.abspath(os.path.join('../')))
+from log import *
+
+my_logger = get_logger("DfOutlier")
+my_logger.debug("Testing custom logger")
 
 
 class DfOutlier:

@@ -1,5 +1,13 @@
+import os
+import sys
 import numpy as np
 import pandas as pd
+
+sys.path.append(os.path.abspath(os.path.join('../')))
+from log import *
+
+my_logger = get_logger("DfCleaner")
+my_logger.debug("Testing custom logger")
 
 
 class DfCleaner():
