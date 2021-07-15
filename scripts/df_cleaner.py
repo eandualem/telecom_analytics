@@ -162,6 +162,16 @@ class DfCleaner():
             df[col] = df[col].fillna(df[col].mode()[0])
         return df
 
+    def fill_with_mean(self, df: pd.DataFrame, columns):
+        for col in columns:
+            df[col] = df[col].fillna(df[col].mean()[0])
+        return df
+
+    def fill_with_median(self, df: pd.DataFrame, columns):
+        for col in columns:
+            df[col] = df[col].fillna(df[col].median()[0])
+        return df
+
     def percent_missing(self, df):
         totalCells = np.product(df.shape)
         missingCount = df.isnull().sum()

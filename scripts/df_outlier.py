@@ -28,10 +28,7 @@ class DfOutlier:
         return [self.df[col].skew() for col in self.df]
 
     def percentage(self, list):
-        return [str(round(((value/150001) * 100), 2)) + '%' for value in list]
-
-    def find_statistical_information(self, column):
-        return self.df.groupby(column).size().agg(['count', 'min', 'max', 'mean', 'median'])
+        return [str(round(((value/self.df.shape[0]) * 100), 2)) + '%' for value in list]
 
     def remove_outliers(self, columns):
         for col in columns:
@@ -52,18 +49,28 @@ class DfOutlier:
             self.df[col] = np.where(self.df[col] > upper, upper, self.df[col])
             self.df[col] = np.where(self.df[col] < lower, lower, self.df[col])
 
+    def replace_outliers_with_mean(self, columns):
+        for col in columns:
+            Q1, Q3 = self.df[col].quantile(0.25), self.df[col].quantile(0.75)
+            IQR = Q3 - Q1
+            cut_off = IQR * 1.5
+            lower, upper = Q1 - cut_off, Q3 + cut_off
+
+            self.df[col] = np.where(self.df[col] > upper, upper, self.df[col])
+            self.df[col] = np.where(self.df[col] < lower, lower, self.df[col])
+
     def getOverview(self) -> None:
-        stat = [self.find_statistical_information(
-            column) for column in self.df]
+
         Q1 = self.df.quantile(0.25)
         Q3 = self.df.quantile(0.75)
         IQR = Q3 - Q1
         _skew = self.calc_skew()
         _outliers = self.count_outliers(Q1, Q3, IQR)
-        _min = [round((i[1]), 2) for i in stat]
-        _max = [round((i[2]), 2) for i in stat]
-        _mean = [round((i[3]), 2) for i in stat]
-        _median = [round((i[4]), 2) for i in stat]
+        stat = self.df.describe()
+        _min = [stat[column]['min'] for column in stat]
+        _max = [stat[column]['max'] for column in stat]
+        _mean = [stat[column]['mean'] for column in stat]
+        _median = [stat[column]['50%'] for column in stat]
 
         columns = [
             'label',

@@ -1,10 +1,10 @@
-from log import *
 import os
 import sys
 import pandas as pd
 import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join('../')))
+from log import *
 
 my_logger = get_logger("DfOverview")
 my_logger.debug("Loaded successfully!")
@@ -28,10 +28,10 @@ class DfOverview:
         return [self.getUniqueCount(column) for column in self.df]
 
     def percentage(self, list):
-        return [str(round(((value/150001) * 100), 2)) + '%' for value in list]
+        return [str(round(((value/self.df.shape[0]) * 100), 2)) + '%' for value in list]
 
     def getOverview(self) -> None:
-        stat = df.describe()
+        stat = self.df.describe()
         _count = [stat[column]['count'] for column in stat]
         _min = [stat[column]['min'] for column in stat]
         _max = [stat[column]['max'] for column in stat]
