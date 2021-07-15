@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join('../')))
 from log import *
 
 my_logger = get_logger("DfOutlier")
-my_logger.debug("Testing custom logger")
+my_logger.debug("Loaded successfully!")
 
 
 class DfOutlier:
