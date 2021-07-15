@@ -26,7 +26,7 @@ setup(
     long_description=readme,
     include_package_data=True,
     keywords='scripts',
-    name='scripts',
+    name='telecom_analytics',
     packages=find_packages(include=['scripts', 'scripts.*']),
     test_suite='tests',
     tests_require=test_requirements,

@@ -3,6 +3,11 @@ import numpy as np
 
 
 class DfOutlier:
+    """
+        Give an overview for a given data frame, 
+        percentage of outliers in each column and 
+        has methods for removeing or replacing outliers.
+    """
     def __init__(self, df: pd.DataFrame) -> None:
         self.df = df
 

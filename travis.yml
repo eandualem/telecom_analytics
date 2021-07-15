@@ -15,5 +15,8 @@ cache:
 
 # Command to run tests, e.g. python setup.py test
 script:
- - cd tests/
+  - cd tests/
     - python3 test_df_cleaner.py
+    - python3 test_df_outlier.py
+    - python3 test_df_overview.py
+    - python3 test_df_selector.py

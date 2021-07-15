@@ -2,6 +2,12 @@ import pandas as pd
 import numpy as np
 
 class DfOverview:
+    """
+        Give an overview for a given data frame, 
+        like null persentage for each columns, 
+        unique value percentage for each columns and more
+    """
+
     def __init__(self, df: pd.DataFrame) -> None:
         self.df = df
 
