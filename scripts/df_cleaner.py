@@ -1,10 +1,10 @@
+from log import *
 import os
 import sys
 import numpy as np
 import pandas as pd
 
 sys.path.append(os.path.abspath(os.path.join('../')))
-from log import *
 
 my_logger = get_logger("DfCleaner")
 my_logger.debug("Loaded successfully!")
@@ -19,7 +19,7 @@ class DfCleaner():
     def __init__(self):
         pass
 
-    def fixLabel(self, label: list)-> list:
+    def fixLabel(self, label: list) -> list:
         """convert list of labels to lowercase separated by underscore
 
         Args:
@@ -58,7 +58,7 @@ class DfCleaner():
             df.drop(col, axis=1, inplace=True)
         return df
 
-    def drop_rows(self, df: pd.DataFrame, column: str, row_value:str) -> pd.DataFrame:
+    def drop_rows(self, df: pd.DataFrame, column: str, row_value: str) -> pd.DataFrame:
         """drop rows in selected column based on condition given
         Args:
             df (pd.DataFrame): pandas data frame
@@ -117,6 +117,20 @@ class DfCleaner():
             df[col] = pd.to_numeric(df[col])
         return df
 
+    def convert_to_integer(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
+        """convert selected columns to number
+
+        Args:
+            df (pd.DataFrame): pandas data frame
+            columns (list): list of column labels
+
+        Returns:
+            pd.DataFrame: pandas data frame with converted data types
+        """
+        for col in columns:
+            df[col] = df[col].astype('int64')
+        return df
+
     def convert_to_datetime(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
         """convert selected columns to datetime
 
@@ -149,13 +163,15 @@ class DfCleaner():
         df[column] = df[column] * scale
         return df
 
-    def fix_missing_ffill(self, df: pd.DataFrame, col):
-        df[col] = df[col].fillna(method='ffill')
-        return df[col]
+    def fix_missing_ffill(self, df: pd.DataFrame, columns):
+        for col in columns:
+            df[col] = df[col].fillna(method='ffill')
+        return df
 
-    def fix_missing_bfill(self, df: pd.DataFrame, col):
-        df[col] = df[col].fillna(method='bfill')
-        return df[col]
+    def fix_missing_bfill(self, df: pd.DataFrame, columns):
+        for col in columns:
+            df[col] = df[col].fillna(method='bfill')
+        return df
 
     def fill_with_mode(self, df: pd.DataFrame, columns):
         for col in columns:
@@ -164,12 +180,12 @@ class DfCleaner():
 
     def fill_with_mean(self, df: pd.DataFrame, columns):
         for col in columns:
-            df[col] = df[col].fillna(df[col].mean()[0])
+            df[col] = df[col].fillna(df[col].mean())
         return df
 
     def fill_with_median(self, df: pd.DataFrame, columns):
         for col in columns:
-            df[col] = df[col].fillna(df[col].median()[0])
+            df[col] = df[col].fillna(df[col].median())
         return df
 
     def percent_missing(self, df):
