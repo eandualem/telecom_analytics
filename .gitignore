@@ -6,7 +6,10 @@ dist/
 __pycache__/
 *.so
 *~
+.ipynb_checkpoints
+
 
 # due to using tox and pytest
 .tox
 .cache
+.DS_Store
