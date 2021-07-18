@@ -24,4 +24,7 @@ def loadEngagementData():
 
 def app():
     st.title('User Engagement analysis')
+
+    st.header('Top 10 Engaged Customers')
+
     df = loadWholeData()
