@@ -1,0 +1,45 @@
+Id_COLUMNS = ["bearer_id", 'msisdn_number', 'imei', 'imsi']
+CATEGORICAL_COLUMNS = ["last_location_name",
+                       "handset_manufacturer", "handset_type"]
+DATE_TIME_COLUMNS = ['start', 'end']
+NUMERIC_COLUMNS = ['start_ms',
+                   'end_ms',
+                   'dur_(ms)',
+                   'avg_rtt_dl_(ms)',
+                   'avg_rtt_ul_(ms)',
+                   'avg_bearer_tp_dl_(kbps)',
+                   'avg_bearer_tp_ul_(kbps)',
+                   'tcp_dl_retrans_vol_(bytes)',
+                   'tcp_ul_retrans_vol_(bytes)',
+                   'dl_tp_<_50_kbps_(%)',
+                   '50_kbps_<_dl_tp_<_250_kbps_(%)',
+                   '250_kbps_<_dl_tp_<_1_mbps_(%)',
+                   'dl_tp_>_1_mbps_(%)',
+                   'ul_tp_<_10_kbps_(%)',
+                   '10_kbps_<_ul_tp_<_50_kbps_(%)',
+                   '50_kbps_<_ul_tp_<_300_kbps_(%)',
+                   'ul_tp_>_300_kbps_(%)',
+                   'activity_duration_dl_(ms)',
+                   'activity_duration_ul_(ms)',
+                   'nb_of_sec_with_vol_dl_<_6250b',
+                   'nb_of_sec_with_vol_ul_<_1250b',
+                   'social_media_dl_(bytes)',
+                   'social_media_ul_(bytes)',
+                   'google_dl_(bytes)',
+                   'google_ul_(bytes)',
+                   'email_dl_(bytes)',
+                   'email_ul_(bytes)',
+                   'youtube_dl_(bytes)',
+                   'youtube_ul_(bytes)',
+                   'netflix_dl_(bytes)',
+                   'netflix_ul_(bytes)',
+                   'gaming_dl_(bytes)',
+                   'gaming_ul_(bytes)',
+                   'other_dl_(bytes)',
+                   'other_ul_(bytes)',
+                   'total_ul_(bytes)',
+                   'total_dl_(bytes)']
+
+
+
+
