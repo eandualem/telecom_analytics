@@ -1,6 +1,6 @@
 FROM python:3.7
 
-WORKDIR /app
+WORKDIR /app/streamlit
 
 COPY requirements.txt ./requirements.txt
 
@@ -10,6 +10,4 @@ EXPOSE 8501
 
 COPY . /app
 
-ENTRYPOINT ["streamlit", "run"]
-
-CMD ["./streamlit/dashboard.py"]
+CMD streamlit run --server.port $PORT dashboard.py
