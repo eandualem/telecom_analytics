@@ -13,8 +13,12 @@ from plotly.subplots import make_subplots
 from streamlit_pandas_profiling import st_profile_report
 
 
-def loadWholeData():
-    df = pd.read_csv("../data/clean_data.csv")
+def loadCleanData():
+    df = pd.read_excel("../data/field_descriptions.xlsx")
+    return df
+
+def loadEngagementData():
+    df = pd.read_excel("../data/field_descriptions.xlsx")
     return df
 
 

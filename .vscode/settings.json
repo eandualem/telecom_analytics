@@ -9,5 +9,8 @@
     "inplace",
     "iterrows",
     "numpy"
+  ],
+  "python.analysis.extraPaths": [
+    "./scripts"
   ]
 }
