@@ -1,5 +1,4 @@
 import overview
-import distribution
 import user_engagement
 import user_experience
 import user_satisfaction
@@ -7,7 +6,6 @@ import streamlit as st
 
 PAGES = {
     "User Overview analysis": overview,
-    "Data Distribution": distribution,
     "User Engagement Analysis":  user_engagement,
     "User Experience Analytics": user_experience,
     "User Satisfaction Analysis": user_satisfaction,

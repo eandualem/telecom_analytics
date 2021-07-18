@@ -2,13 +2,16 @@
   "cSpell.words": [
     "Andualem",
     "bfill",
+    "cdist",
     "dtype",
     "dtypes",
     "ffill",
     "fillna",
     "inplace",
     "iterrows",
-    "numpy"
+    "kmeans",
+    "numpy",
+    "plotly"
   ],
   "python.analysis.extraPaths": [
     "./scripts"

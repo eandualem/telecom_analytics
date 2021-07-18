@@ -33,12 +33,11 @@ class DfHelper():
         except FileNotFoundError:
             print("file not found")
     
-    def save_csv(self, df, csv_path):
+    def save_csv(self, df, csv_path, name, index=False):
         try:
-            df.to_csv(csv_path, index=False)
-            print('File Successfully Saved.!!!')
+            df.to_csv(csv_path + name )
+            df.to_csv(csv_path, index=index)
+            my_logger.info("Loaded successfully!")
 
         except Exception:
-            print("Save failed...")
-
-        return df
+            my_logger.exception("Save failed")

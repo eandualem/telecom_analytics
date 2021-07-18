@@ -40,6 +40,14 @@ NUMERIC_COLUMNS = ['start_ms',
                    'total_ul_(bytes)',
                    'total_dl_(bytes)']
 
+TOTAL_APPLICATION_COLUMNS = ['social_media',
+        'google',
+        'email',
+        'youtube',
+        'netflix',
+        'gaming',
+        'other',
+        'total_data']
 
 
 

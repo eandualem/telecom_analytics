@@ -1,7 +1,3 @@
-from constants import *
-from df_outlier import DfOutlier
-from df_overview import DfOverview
-from scripts import df_overview
 import scripts
 import sys
 import os
@@ -11,8 +7,11 @@ import pandas as pd
 import streamlit as st
 from streamlit_pandas_profiling import st_profile_report
 
-# sys.path.insert(1, '../scripts')
-
+sys.path.insert(1, '../scripts')
+from constants import *
+from df_outlier import DfOutlier
+from df_overview import DfOverview
+from scripts import df_overview
 
 def loadDescription():
     df = pd.read_excel("../data/field_descriptions.xlsx")

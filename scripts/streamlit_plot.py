@@ -1,3 +1,12 @@
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.figure_factory as ff
+from plotly.subplots import make_subplots
+import plotly.io as pio
+from IPython.display import Image
+
+
 def scatter(df, x, y, c=None, s=None, mx=None, my=None, af=None, fit=None, interactive=False):
     fig = px.scatter(df, x=x, y=y, color=c, size=s, marginal_y=my,
                      marginal_x=mx, trendline=fit, animation_frame=af)

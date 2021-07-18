@@ -4,13 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 import streamlit as st
-import altair as alt
-import matplotlib.pyplot as plt
-import plotly.figure_factory as ff
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from streamlit_pandas_profiling import st_profile_report
+from streamlit_plot import *
 
 
 def loadWholeData():
@@ -18,6 +12,20 @@ def loadWholeData():
     return df
 
 
+def getEngagemetData():
+    df = loadWholeData()
+    user_engagement_df = df[['msisdn_number', 'bearer_id', 'dur_(ms)', 'total_data']].copy(
+    ).rename(columns={'dur_(ms)': 'duration', 'total_data': 'total_data_volume'})
+    return user_engagement_df
+
+
 def app():
     st.title('User Satisfaction Analysis')
-    df = loadWholeData()
+    st.header("Top 10 customers per engagement metrics")
+    user_engagement = getEngagemetData()
+    sessions = user_engagement.nlargest(10, "sessions")['sessions']
+    duration = user_engagement.nlargest(10, "duration")['duration']
+    total_data_volume = user_engagement.nlargest(
+        10, "total_data_volume")['total_data_volume']
+    mult_hist([sessions, duration, total_data_volume], 1,
+              3, "User metrix", ['sessions', 'duration', 'total_data_volume'])

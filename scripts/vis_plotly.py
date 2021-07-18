@@ -5,7 +5,6 @@ from plotly.subplots import make_subplots
 import plotly.io as pio
 from IPython.display import Image
 
-
 def myLayout(title, x_title, y_title, mode, width, height, margin):
     return go.Layout(
         title=title,
@@ -20,7 +19,6 @@ def myLayout(title, x_title, y_title, mode, width, height, margin):
         height=height,
         margin=margin
     )
-
 
 def BarTrace(x, y, names):
     trace = []
