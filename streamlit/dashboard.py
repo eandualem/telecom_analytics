@@ -5,7 +5,7 @@ import user_satisfaction
 import streamlit as st
 
 PAGES = {
-    "User Overview analysis": overview,
+    "Data Overview": overview,
     "User Engagement Analysis":  user_engagement,
     "User Experience Analytics": user_experience,
     "User Satisfaction Analysis": user_satisfaction,

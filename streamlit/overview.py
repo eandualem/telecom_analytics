@@ -29,7 +29,7 @@ def loadPreprocessedData():
 
 
 def app():
-    st.title('User Overview analysis')
+    st.title('Data Overview')
 
     st.header('Table Description')
     st.text("The telecom dataset has 150001 observations with 55 features. Here is description of all the columns")
@@ -58,7 +58,7 @@ def app():
     df = loadPreprocessedData()
     numeric_df = df[NUMERIC_COLUMNS].copy()
     st.markdown(
-        '''
+    '''
     The table below shows outliers in the data after Handling the null values.
     The table contains:
     - IQR for each columns

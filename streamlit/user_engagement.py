@@ -25,7 +25,7 @@ def loadCleanData():
 
 @st.cache
 def getEngagemetData():
-    df = loadCleanData()
+    df = loadCleanData().copy()
     user_engagement_df = df[['msisdn_number', 'bearer_id', 'dur_(ms)', 'total_data']].copy(
     ).rename(columns={'dur_(ms)': 'duration', 'total_data': 'total_data_volume'})
     user_engagement = user_engagement_df.groupby(
@@ -37,16 +37,16 @@ def getEngagemetData():
 
 @st.cache
 def getNormalData(df):
-    df_outliers = DfOutlier(df)
+    df_outliers = DfOutlier(df.copy())
     cols = ['sessions', 'duration', 'total_data_volume']
     df_outliers.replace_outliers_with_iqr(cols)
-    df = df_utils.scale_and_normalize(df_outliers.df, cols)
-    return df
+    res_df = df_utils.scale_and_normalize(df_outliers.df, cols)
+    return res_df
 
 
 @st.cache
 def get_distortion_andinertia(df, num):
-    distortions, inertias = df_utils.choose_kmeans(df, num)
+    distortions, inertias = df_utils.choose_kmeans(df.copy(), num)
     return distortions, inertias
 
 def plotTop10(df):
@@ -94,9 +94,9 @@ def app():
     select_num = 1
     if(num != 0):
         normal_df = getNormalData(user_engagement)
-        elbowPlot(normal_df, num)
+        elbowPlot(normal_df, num+1)
 
-        select_num = st.selectbox('Select', range(1, num))
+        select_num = st.selectbox('Select', range(1, num+1))
 
     if(select_num != 1):
         st.markdown(

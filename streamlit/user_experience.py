@@ -26,7 +26,7 @@ def loadCleanData():
 
 @st.cache
 def getExperienceDataFrame():
-    df = loadCleanData()
+    df = loadCleanData().copy()
     user_experience_df = df[[
         "msisdn_number",
         "avg_rtt_dl_(ms)",
@@ -34,8 +34,7 @@ def getExperienceDataFrame():
         "avg_bearer_tp_dl_(kbps)",
         "avg_bearer_tp_ul_(kbps)",
         "tcp_dl_retrans_vol_(bytes)",
-        "tcp_ul_retrans_vol_(bytes)",
-        "handset_type"]].copy()
+        "tcp_ul_retrans_vol_(bytes)"]].copy()
     user_experience_df['total_avg_rtt'] = user_experience_df[
         'avg_rtt_dl_(ms)'] + user_experience_df['avg_rtt_ul_(ms)']
     user_experience_df['total_avg_tp'] = user_experience_df[
@@ -47,28 +46,20 @@ def getExperienceDataFrame():
 
 @st.cache
 def getExperienceData():
-    df = getExperienceDataFrame()
-    _user_experience = df.groupby('msisdn_number').agg({
+    df = getExperienceDataFrame().copy()
+    user_experience = df.groupby('msisdn_number').agg({
         'total_avg_rtt': 'sum',
         'total_avg_tp': 'sum',
-        'total_avg_tcp': 'sum',
-        'handset_type': [lambda x: x.mode()[0]]})
-    user_experience = pd.DataFrame(columns=[
-        "total_avg_rtt",
-        "total_avg_tp",
-        "total_avg_tcp",
-        "handset_type"])
-    user_experience["total_avg_rtt"] = _user_experience["total_avg_rtt"]['sum']
-    user_experience["total_avg_tp"] = _user_experience["total_avg_tp"]['sum']
-    user_experience["total_avg_tcp"] = _user_experience["total_avg_tcp"]['sum']
-    user_experience["handset_type"] = _user_experience["handset_type"]['<lambda>']
+        'total_avg_tcp': 'sum'})
     return user_experience
 
 
 @st.cache
 def getNormalData(df):
-    df_outliers = DfOutlier(df)
-    cols = ['sessions', 'duration', 'total_data_volume']
+    df_outliers = DfOutlier(df.copy())
+    cols = ["total_avg_rtt",
+            "total_avg_tp",
+            "total_avg_tcp"]
     df_outliers.replace_outliers_with_iqr(cols)
     df = df_utils.scale_and_normalize(df_outliers.df, cols)
     return df
@@ -76,9 +67,9 @@ def getNormalData(df):
 
 @st.cache
 def get_distortion_andinertia(df, num):
-    distortions, inertias = df_utils.choose_kmeans(df, num)
+    distortions, inertias = df_utils.choose_kmeans(df.copy(), num)
     return distortions, inertias
-    
+
 
 def plot10(df):
     col = st.selectbox("Compute & list 10 of the top, bottom and most frequent: from", (
@@ -112,10 +103,55 @@ def plot10Sorted(df, col_name):
         return hist(_sorted)
 
 
+def elbowPlot(df, num):
+    distortions, inertias = get_distortion_andinertia(df, num)
+    fig = make_subplots(
+        rows=1, cols=2, subplot_titles=("Distortion", "Inertia")
+    )
+    fig.add_trace(go.Scatter(x=np.array(range(1, num)),
+                             y=distortions), row=1, col=1)
+    fig.add_trace(go.Scatter(x=np.array(
+        range(1, num)), y=inertias), row=1, col=2)
+    fig.update_layout(title_text="The Elbow Method")
+    st.plotly_chart(fig)
 
 def app():
     st.title('User Experience Analytics')
-    df = getExperienceData()
-    plot10(df)
+    st.header("Top 10 customers per engagement metrics")
+    user_experience = getExperienceData()
+    plot10(user_experience)
+
+    st.header("Clustering customers based on their engagement")
+    st.markdown(
+        '''
+    Here we will try to cluster customers based on their engagement.
+    We choose number of clusters by using elbow method. 
+    To start choose number of tries
+    ''')
+    num = st.selectbox('Select', range(0, 20))
+    select_num = 1
+    if(num != 0):
+        normal_df = getNormalData(user_experience)
+        elbowPlot(normal_df, num+1)
+
+        select_num = st.selectbox('Select', range(1, num+1))
+
+    if(select_num != 1):
+        st.markdown(
+            '''
+        Based on the image above choose number of clusters
+        ''')
+        kmeans = KMeans(n_clusters=select_num, random_state=0).fit(normal_df)
+        user_experience["cluster"] = kmeans.labels_
+        scatter3D(user_experience, x="total_avg_tcp", y="total_avg_rtt", z="total_avg_tp",
+                  c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
+
+        st.markdown(
+            '''
+        Save the cluster for satisfaction analysis
+        ''')
+        if st.button('Save CSV'):
+            df_helper.save_csv(user_experience, '../data/', 'test.csv')
+
 
 
