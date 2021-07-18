@@ -87,35 +87,30 @@ def getUserExperience(worst_experience):
     distance = exp_model.fit_transform(exp_normal)
     distance_from_worst_experience = list(
         map(lambda x: x[worst_experience], distance))
-    exp_df['engagement_score'] = distance_from_worst_experience
+    exp_df['experience_score'] = distance_from_worst_experience
     return exp_df
 
 def getSatisfactionData(less_engagement, worst_experience):
     user_engagement = getUserEngagement(less_engagement)
     user_experience = getUserExperience(worst_experience)
 
-    eng_df = getEngagemetData().copy()
-    exp_df = getExperienceData().copy()
+    user_engagement.reset_index(inplace=True)
+    user_experience.reset_index(inplace=True)
 
-    user_id_engagement = eng_df['msisdn_number'].values
-    st.write(user_id_engagement)
-
-    user_id_experience = exp_df['msisdn_number'].values
-    st.write(user_id_experience)
+    user_id_engagement = user_engagement['msisdn_number'].values
+    user_id_experience = user_experience['msisdn_number'].values
 
     user_intersection = list(
         set(user_id_engagement).intersection(user_id_experience))
-    user_engagement_df = user_engagement[eng_df['msisdn_number'].isin(
-        user_intersection)]
-    st.write(user_engagement_df)
 
-    user_experience_df = user_experience[exp_df['msisdn_number'].isin(
+    user_engagement_df = user_engagement[user_engagement['msisdn_number'].isin(
         user_intersection)]
-    st.write(user_experience_df)
+    
+    user_experience_df = user_experience[user_experience['msisdn_number'].isin(
+        user_intersection)]
 
     user_df = pd.merge(user_engagement_df, user_experience_df, on='msisdn_number')
     st.write(user_df)
-
     user_df['satisfaction_score'] = (
         user_df['engagement_score'] + user_df['experience_score'])/2
     sat_score_df = user_df[['msisdn_number', 'engagement_score',
