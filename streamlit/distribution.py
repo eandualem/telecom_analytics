@@ -37,24 +37,11 @@ def loadExperienceData():
     return df
 
 
-def hist(sr):
-    x = [" " + str(i) for i in sr.index]
-    fig = px.histogram(x=x, y=sr.values, height=700)
-    st.plotly_chart(fig)
 
-
-def histogram(hist_data, group_labels, bin_size=1, curve_type='normal', show_hist=True, invert=False):
-    if(invert):
-        hist_data.reverse()
-        group_labels.reverse()
-    fig = ff.create_distplot(hist_data, group_labels, bin_size=bin_size,
-                             curve_type=curve_type, show_hist=show_hist)
-    fig.update_layout()
-    st.plotly_chart(fig)
 
 
 def app():
-    st.title('Telcom Analytics Distributions')
+    st.title('Data Distributions')
     cols = ['social_media',
             'google',
             'email',

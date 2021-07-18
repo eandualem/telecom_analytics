@@ -1,12 +1,18 @@
-import clusters
+import overview
 import distribution
-import profiling
+import user_engagement
+import user_experience
+import user_satisfaction
 import streamlit as st
+
 PAGES = {
-    "Cluttering": clusters,
-    "Distribution": distribution,
-    "Telcom Dataframe Profiling": profiling
+    "User Overview analysis": overview,
+    "Data Distribution": distribution,
+    "User Engagement Analysis":  user_engagement,
+    "User Experience Analytics": user_experience,
+    "User Satisfaction Analysis": user_satisfaction,
 }
+
 selection = st.sidebar.radio("Go to page", list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
