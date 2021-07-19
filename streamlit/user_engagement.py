@@ -89,11 +89,10 @@ def app():
 
     st.header("Clustering customers based on their engagement metric")
     st.markdown(
-        '''
-    Here we will try to cluster customers based on their engagement.
-    To find optimized value of k first let's plot an elbow curve graph.
-    We choose number of clusters by using elbow method. 
-    To start choose number max number of clusters to test for.
+    '''
+        Here we will try to cluster customers based on their engagement.
+        To find the optimized value of k, first, let's plot an elbow curve graph.
+        To start, choose the number of times to runs k-means.
     ''')
     num = st.selectbox('Select', range(0, 20))
     select_num = 1
@@ -102,7 +101,7 @@ def app():
         elbowPlot(normal_df, num+1)
 
         st.markdown(
-            '''
+        '''
             Select the optimized values for k
         ''')
         select_num = st.selectbox('Select', range(1, num+1))
@@ -118,21 +117,38 @@ def app():
         ''')
         st.write(user_engagement['cluster'].value_counts())
 
-        st.markdown(
-        '''
-            2D visualization of cluster
-        ''')
-        scatter(user_engagement, x='total_data_volume', y="duration",
-                c='cluster', s='sessions')
+        show2D = False
+        if st.button('Show 2D visualization'):
+            if(show2D):
+                show2D = False
+            else:
+                show2D = True
 
-        st.markdown(
-        '''
-            3D visualization of cluster
-        ''')
-        scatter3D(user_engagement, x="total_data_volume", y="duration", z="sessions",
-                  c="cluster", interactive=True)
+
+        if(show2D):
+            st.markdown(
+            '''
+                2D visualization of cluster
+            ''')
+            scatter(user_engagement, x='total_data_volume', y="duration",
+                    c='cluster', s='sessions')
         
-        st.warning('Remamber cluster with the list engagement. we need that for satisfaction analysis')
+        show3D = False
+        if st.button('Show 3D visualization'):
+            if(show3D == True):
+                show3D = False
+            else:
+                show3D = True
+        if(show3D):
+            st.markdown(
+            '''
+                3D visualization of cluster
+            ''')
+            scatter3D(user_engagement, x="total_data_volume", y="duration", z="sessions",
+                    c="cluster", interactive=True)
+        
+        st.warning(
+            'Remember cluster with the least engagement. we need that for satisfaction analysis')
         st.markdown(
         '''
             Save the model for satisfaction analysis

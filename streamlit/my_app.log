@@ -79,3 +79,8 @@ IsADirectoryError: [Errno 21] Is a directory: '../data/'
 2021-07-19 09:18:18,979 — DfSelector — DEBUG — Loaded successfully!
 2021-07-19 09:22:12,926 — DfSelector — INFO — Loaded successfully!
 2021-07-19 09:23:31,200 — DfSelector — INFO — Loaded successfully!
+2021-07-19 10:11:15,365 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 10:11:15,366 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 10:11:15,369 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 10:11:15,369 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 10:11:19,654 — DfSelector — DEBUG — Loaded successfully!

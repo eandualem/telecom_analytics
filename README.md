@@ -13,6 +13,9 @@
       - [1.01_outliers.ipynb](#101_outliersipynb)
       - [1.1_overview:](#11_overview)
       - [1.2_data_analysis:](#12_data_analysis)
+    - [User Engagement Analysis](#user-engagement-analysis)
+    - [User Experience Analysis](#user-experience-analysis)
+    - [User Satisfaction Analysis](#user-satisfaction-analysis)
     - [Scripts](#scripts)
     - [Test](#test)
     - [Travis CI](#travis-ci)
@@ -22,7 +25,11 @@
 This repository analyses users’ experience, engagement, and satisfaction to check for growth opportunities in TellCo, a mobile service provider.
 
 ## Requirements
-Python 3.5 and above, Pip and MYSQL
+  Python 3.5 and above, Pip and MYSQL
+  The visualization are made using plotly. I am showing only static images in the notebooks bc interactive plots are not visible in GitHub. If you set,  interactive true the plots will be interactive. eg: 
+  - hist(df): static image
+  - hist(df, interactive=True): interactive plot
+
 ## Install
 ```
 git clone https://github.com/eandualem/telecom_analytics.git
@@ -59,6 +66,15 @@ pip install -r requirements.txt
 #### 1.2_data_analysis:
   - I have done task 1.2 here.
 
+### User Engagement Analysis
+  - User engagement analysis is done in 2.0_engagement_analysis.ipynb.
+
+### User Experience Analysis
+  - User experience analysis is done in 3.0_experience_analytics.ipynb.
+
+### User Satisfaction Analysis
+  - User satisfaction analysis is done in 4.0_satisfaction_analysis.ipynb.
+
 ### Scripts
  - All the scripts used by the notebooks are inside the scripts folder.
 
@@ -66,7 +82,10 @@ pip install -r requirements.txt
  - Tests for the scripts are inside the tests folder.
 
 ### Travis CI
-  - In the process.
+  - The file .travis.yml contains the configuration for Travis.
 
 ### Dashboard
-  - 
+  - The code for the dashboard is inside streamlit folder
+  - I have built Docker image that can be built and run.
+  - Its hosted on heroku
+  - link: https://ancient-coast-11237.herokuapp.com

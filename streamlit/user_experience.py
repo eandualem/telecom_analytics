@@ -125,10 +125,10 @@ def app():
 
     st.header("Clustering customers based on their engagement")
     st.markdown(
-        '''
-    Here we will try to cluster customers based on their engagement.
-    We choose number of clusters by using elbow method. 
-    To start choose number of tries
+    '''
+        Here we will try to cluster customers based on their experience.
+        To find the optimized value of k, first, let's plot an elbow curve graph.
+        To start, choose the number of times to runs k-means.
     ''')
     num = st.selectbox('Select', range(0, 20))
     select_num = 1
@@ -140,8 +140,8 @@ def app():
 
     if(select_num != 1):
         st.markdown(
-            '''
-        Based on the image above choose number of clusters
+        '''
+            Based on the image above choose the number of clusters
         ''')
         kmeans = KMeans(n_clusters=select_num, random_state=0).fit(normal_df)
         user_experience["cluster"] = kmeans.labels_
@@ -152,22 +152,37 @@ def app():
         ''')
         st.write(user_experience['cluster'].value_counts())
 
-        st.markdown(
-            '''
-            2D visualization of cluster
-        ''')
+        show2D = False
+        if st.button('Show 2D visualization'):
+            if(show2D):
+                show2D = False
+            else:
+                show2D = True
+
+        if(show2D):
+            st.markdown(
+                '''
+                2D visualization of cluster
+            ''')
         scatter(user_experience, x='total_avg_tcp', y="total_avg_rtt",
                 c='cluster', s='total_avg_tp')
 
-        st.markdown(
-            '''
-            3D visualization of cluster
-        ''')
-        scatter3D(user_experience, x="total_avg_tcp", y="total_avg_rtt", z="total_avg_tp",
-                  c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
+        show3D = False
+        if st.button('Show 3D visualization'):
+            if(show3D):
+                show3D = False
+            else:
+                show3D = True
+        if(show3D):
+            st.markdown(
+                '''
+                3D visualization of cluster
+            ''')
+            scatter3D(user_experience, x="total_avg_tcp", y="total_avg_rtt", z="total_avg_tp",
+                    c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
 
         st.warning(
-            'Remamber the  cluster with worst experience. we need that for satisfaction analysis')
+            'Remember the cluster with the worst experience. we need that for satisfaction analysis')
         st.markdown(
         '''
             Save the model for satisfaction analysis

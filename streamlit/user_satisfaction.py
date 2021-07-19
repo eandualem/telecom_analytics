@@ -131,7 +131,7 @@ def app():
 
         st.markdown(
         '''
-        Plot showing relashinship between engagement score and satisfaction score.
+            Plot showing relationship between engagement score and satisfaction score.        
         ''')
         scatter(df, 'engagement_score',
                 'experience_score', 'satisfaction_score')
