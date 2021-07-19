@@ -1,4 +1,3 @@
-import scripts
 import sys
 import os
 import sys
@@ -14,7 +13,7 @@ from df_overview import DfOverview
 from scripts import df_overview
 
 def loadDescription():
-    df = pd.read_excel("../data/field_descriptions.xlsx")
+    df = pd.read_csv("../data/field_descriptions.csv")
     return df
 
 
@@ -32,11 +31,15 @@ def app():
     st.title('Data Overview')
 
     st.header('Table Description')
-    st.text("The telecom dataset has 150001 observations with 55 features. Here is description of all the columns")
+    st.markdown(
+    '''
+        The telecom dataset has 150001 observations with 55 features. 
+        Here is description of all the columns
+    ''')
     df = loadDescription()
     st.write(df, width=1200)
 
-    st.header('Here is sample data from the Original table')
+    st.header('Here is sample data from the table')
     df = loadOriginalData()
     st.write(df.head(10))
 
@@ -59,7 +62,8 @@ def app():
     numeric_df = df[NUMERIC_COLUMNS].copy()
     st.markdown(
     '''
-    The table below shows outliers in the data after Handling the null values.
+    The table below shows outliers in the data.
+
     The table contains:
     - IQR for each columns
     - skew for each columns

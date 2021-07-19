@@ -14,9 +14,10 @@ from df_outlier import DfOutlier
 from df_overview import DfOverview
 from df_utils import DfUtils
 from df_helper import DfHelper
+from streamlit_plot import *
 
-df_utils = DfUtils()
-df_helper = DfHelper()
+utils = DfUtils()
+helper = DfHelper()
 
 
 @st.cache
@@ -32,27 +33,13 @@ def getExperienceData():
 
 
 @st.cache
-def getEngagemetModel():
-    with open("../models/user_engagement.pkl", "rb") as f:
-        kmeans = pickle.load(f)
-    return kmeans
-
-
-@st.cache
-def getExperienceModel():
-    with open("../models/user_experiance.pkl", "rb") as f:
-        kmeans = pickle.load(f)
-    return kmeans
-
-
-@st.cache
 def getNormalExperience(df):
     df_outliers = DfOutlier(df.copy())
     cols = ["total_avg_rtt",
             "total_avg_tp",
             "total_avg_tcp"]
     df_outliers.replace_outliers_with_iqr(cols)
-    df = df_utils.scale_and_normalize(df_outliers.df, cols)
+    df = utils.scale_and_normalize(df_outliers.df)
     return df
 
 @st.cache
@@ -60,9 +47,19 @@ def getNormalEngagement(df):
     df_outliers = DfOutlier(df.copy())
     cols = ['sessions', 'duration', 'total_data_volume']
     df_outliers.replace_outliers_with_iqr(cols)
-    res_df = df_utils.scale_and_normalize(df_outliers.df, cols)
+    res_df = utils.scale_and_normalize(df_outliers.df)
     return res_df
 
+
+def getEngagemetModel():
+    with open("../models/user_engagement.pkl", "rb") as f:
+        kmeans = pickle.load(f)
+    return kmeans
+
+def getExperienceModel():
+    with open("../models/user_experiance.pkl", "rb") as f:
+        kmeans = pickle.load(f)
+    return kmeans
 
 def getUserEngagement(less_engagement):
     eng_df = getEngagemetData().copy()
@@ -110,7 +107,6 @@ def getSatisfactionData(less_engagement, worst_experience):
         user_intersection)]
 
     user_df = pd.merge(user_engagement_df, user_experience_df, on='msisdn_number')
-    st.write(user_df)
     user_df['satisfaction_score'] = (
         user_df['engagement_score'] + user_df['experience_score'])/2
     sat_score_df = user_df[['msisdn_number', 'engagement_score',
@@ -121,10 +117,21 @@ def getSatisfactionData(less_engagement, worst_experience):
 
 def app():
     st.title('User Satisfaction Analysis')
-    num1 = st.selectbox('Select the cluster with less Engagement', range(0, 20))
-    num2 = st.selectbox('Select the cluster with worst Experience', range(0, 20))
-    if st.button('Ok'):
+    num1 = st.sidebar.selectbox('Select the cluster with less Engagement', range(0, 20))
+    num2 = st.sidebar.selectbox(
+        'Select the cluster with worst Experience', range(0, 20))
+    if st.sidebar.button('Ok'):
         df = getSatisfactionData(num1, num2)
-        st.write(df)
 
         st.header("Top 10 customers per engagement metrics")
+        sorted_by_satisfaction = df.sort_values(
+            'satisfaction_score', ascending=False)
+        sat_top_10 = sorted_by_satisfaction['satisfaction_score'].head(10)
+        hist(sat_top_10)
+
+        st.markdown(
+        '''
+        Plot showing relashinship between engagement score and satisfaction score.
+        ''')
+        scatter(df, 'engagement_score',
+                'experience_score', 'satisfaction_score')

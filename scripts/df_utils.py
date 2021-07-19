@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
-from sklearn.preprocessing import Normalizer, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, normalize
 
 
 class DfUtils():
@@ -10,16 +10,17 @@ class DfUtils():
     def __init__(self):
         pass
 
-    def normalizer(self, df, columns):
-        norm = Normalizer()
-        return pd.DataFrame(norm.fit_transform(df), columns=columns)
+    def normalizer(self, df):
+        data_normalized = normalize(df)
+        return data_normalized
 
-    def scaler(self, df, columns):
-        minmax_scaler = MinMaxScaler()
-        return pd.DataFrame(minmax_scaler.fit_transform(df), columns=columns)
+    def scaler(self, df):
+        scaler = StandardScaler()
+        scaled_array = scaler.fit_transform(df)
+        return scaled_array
 
-    def scale_and_normalize(self, df, columns):
-        return self.normalizer(self.scaler(df, columns), columns)
+    def scale_and_normalize(self, df):
+        return self.normalizer(self.scaler(df))
 
     def choose_kmeans(self, df: pd.DataFrame, num: int):
         distortions = []

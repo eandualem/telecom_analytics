@@ -16,7 +16,6 @@ def get_file_handler():
     file_handler.setFormatter(FORMATTER)
     return file_handler
 
-
 def get_logger(logger_name):
     logger = logging.getLogger(logger_name)
     # better to have too much log than not enough

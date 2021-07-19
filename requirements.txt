@@ -11,4 +11,6 @@ plotly==5.1.0
 pandas-profiling==3.0.0
 streamlit-pandas-profiling==0.1.2
 mysql_connector_repackaged==0.3.1
-
+xlrd==2.0.1
+kaleido==0.2.1
+pickleshare==0.7.5

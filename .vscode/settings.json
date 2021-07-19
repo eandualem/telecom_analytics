@@ -11,7 +11,8 @@
     "iterrows",
     "kmeans",
     "numpy",
-    "plotly"
+    "plotly",
+    "scipy"
   ],
   "python.analysis.extraPaths": [
     "./scripts"

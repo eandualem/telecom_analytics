@@ -1,28 +1,81 @@
-2021-07-18 17:51:57,303 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 17:51:57,305 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 17:51:57,305 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 18:10:29,355 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 20:13:09,957 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 20:13:09,960 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:13:09,961 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:13:09,961 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:14:21,889 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 20:14:21,892 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:14:21,894 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:14:21,894 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:32:32,892 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 20:32:32,893 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:32:32,894 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 20:32:32,894 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 21:21:31,752 — DfSelector — DEBUG — Loaded successfully!
-2021-07-18 21:22:32,137 — DfSelector — INFO — Loaded successfully!
-2021-07-18 22:11:22,207 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 22:11:22,214 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 22:11:22,215 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 22:11:22,215 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 22:11:24,062 — DfSelector — DEBUG — Loaded successfully!
-2021-07-18 23:58:43,508 — DfOutlier — DEBUG — Loaded successfully!
-2021-07-18 23:58:43,510 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 23:58:43,510 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 23:58:43,510 — DfOverview — DEBUG — Loaded successfully!
-2021-07-18 23:58:45,523 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 00:57:43,331 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 00:57:43,333 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 00:57:43,335 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 00:57:43,335 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 00:57:47,245 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 01:08:12,228 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 01:08:12,229 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:08:12,231 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:08:12,231 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:08:14,192 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 01:43:05,673 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 01:43:05,675 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:43:05,677 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:43:05,677 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 01:43:07,469 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 02:13:00,031 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 02:13:00,033 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:13:00,035 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:13:00,035 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:13:02,391 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 02:26:35,473 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 02:26:35,475 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:26:35,478 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:26:35,478 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:26:38,329 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 02:28:16,722 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 02:28:16,724 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:28:16,725 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:28:16,725 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 02:28:19,610 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 08:26:51,512 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 08:26:51,514 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 08:26:51,518 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 08:26:51,518 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 08:26:54,273 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 08:52:35,353 — DfSelector — ERROR — Save failed
+Traceback (most recent call last):
+  File "/Users/ea/Projects/telecom_analytics/streamlit/../scripts/df_helper.py", line 39, in save_csv
+    df.to_csv(csv_path, index=index)
+  File "/usr/local/lib/python3.9/site-packages/pandas/core/generic.py", line 3387, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/format.py", line 1083, in to_csv
+    csv_formatter.save()
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/csvs.py", line 228, in save
+    with get_handle(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/common.py", line 642, in get_handle
+    handle = open(
+IsADirectoryError: [Errno 21] Is a directory: '../data/'
+2021-07-19 09:11:48,837 — DfSelector — ERROR — Save failed
+Traceback (most recent call last):
+  File "/Users/ea/Projects/telecom_analytics/streamlit/../scripts/df_helper.py", line 39, in save_csv
+    my_logger.info("Loaded successfully!")
+  File "/usr/local/lib/python3.9/site-packages/pandas/core/generic.py", line 3387, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/format.py", line 1083, in to_csv
+    csv_formatter.save()
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/csvs.py", line 228, in save
+    with get_handle(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/common.py", line 642, in get_handle
+    handle = open(
+IsADirectoryError: [Errno 21] Is a directory: '../data/'
+2021-07-19 09:14:22,739 — DfSelector — ERROR — Save failed
+Traceback (most recent call last):
+  File "/Users/ea/Projects/telecom_analytics/streamlit/../scripts/df_helper.py", line 39, in save_csv
+    my_logger.info("Loaded successfully!")
+  File "/usr/local/lib/python3.9/site-packages/pandas/core/generic.py", line 3387, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/format.py", line 1083, in to_csv
+    csv_formatter.save()
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/formats/csvs.py", line 228, in save
+    with get_handle(
+  File "/usr/local/lib/python3.9/site-packages/pandas/io/common.py", line 642, in get_handle
+    handle = open(
+IsADirectoryError: [Errno 21] Is a directory: '../data/'
+2021-07-19 09:18:16,007 — DfOutlier — DEBUG — Loaded successfully!
+2021-07-19 09:18:16,009 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 09:18:16,011 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 09:18:16,011 — DfOverview — DEBUG — Loaded successfully!
+2021-07-19 09:18:18,979 — DfSelector — DEBUG — Loaded successfully!
+2021-07-19 09:22:12,926 — DfSelector — INFO — Loaded successfully!
+2021-07-19 09:23:31,200 — DfSelector — INFO — Loaded successfully!

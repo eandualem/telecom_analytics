@@ -4,7 +4,6 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
 import plotly.io as pio
-from IPython.display import Image
 
 
 def scatter(df, x, y, c=None, s=None, mx=None, my=None, af=None, fit=None, interactive=False):

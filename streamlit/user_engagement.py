@@ -1,6 +1,7 @@
 import sys
 import os
 import sys
+import pickle
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -8,14 +9,15 @@ from streamlit_plot import *
 from sklearn.cluster import KMeans
 
 sys.path.insert(1, '../scripts')
-from constants import *
-from df_outlier import DfOutlier
-from df_overview import DfOverview
-from df_utils import DfUtils
 from df_helper import DfHelper
+from df_utils import DfUtils
+from df_overview import DfOverview
+from df_outlier import DfOutlier
+from constants import *
+from streamlit_plot import *
 
-df_utils = DfUtils()
-df_helper = DfHelper()
+utils = DfUtils()
+helper = DfHelper()
 
 @st.cache
 def loadCleanData():
@@ -37,17 +39,15 @@ def getEngagemetData():
 
 @st.cache
 def getNormalData(df):
-    df_outliers = DfOutlier(df.copy())
-    cols = ['sessions', 'duration', 'total_data_volume']
-    df_outliers.replace_outliers_with_iqr(cols)
-    res_df = df_utils.scale_and_normalize(df_outliers.df, cols)
+    res_df = utils.scale_and_normalize(df)
     return res_df
 
 
 @st.cache
-def get_distortion_andinertia(df, num):
-    distortions, inertias = df_utils.choose_kmeans(df.copy(), num)
+def get_distortion_and_inertia(df, num):
+    distortions, inertias = utils.choose_kmeans(df.copy(), num)
     return distortions, inertias
+
 
 def plotTop10(df):
     col = st.sidebar.selectbox(
@@ -65,12 +65,12 @@ def plotTop10(df):
 
 
 def elbowPlot(df, num):
-    distortions, inertias = get_distortion_andinertia(df, num)
+    distortions, inertias = get_distortion_and_inertia(df, num)
     fig = make_subplots(
         rows=1, cols=2, subplot_titles=("Distortion", "Inertia")
     )
     fig.add_trace(go.Scatter(x=np.array(range(1, num)),
-                y=distortions), row=1, col=1)
+                             y=distortions), row=1, col=1)
     fig.add_trace(go.Scatter(x=np.array(
         range(1, num)), y=inertias), row=1, col=2)
     fig.update_layout(title_text="The Elbow Method")
@@ -80,15 +80,20 @@ def elbowPlot(df, num):
 def app():
     st.title('User Engagement analysis')
     st.header("Top 10 customers per engagement metrics")
-    user_engagement = getEngagemetData()
+    user_engagement = getEngagemetData().copy()
+    df_outliers = DfOutlier(user_engagement)
+    cols = ['sessions', 'duration', 'total_data_volume']
+    df_outliers.replace_outliers_with_iqr(cols)
+    user_engagement = df_outliers.df
     plotTop10(user_engagement)
-    
-    st.header("Clustering customers based on their engagement")
+
+    st.header("Clustering customers based on their engagement metric")
     st.markdown(
-    '''
+        '''
     Here we will try to cluster customers based on their engagement.
+    To find optimized value of k first let's plot an elbow curve graph.
     We choose number of clusters by using elbow method. 
-    To start choose number of tries
+    To start choose number max number of clusters to test for.
     ''')
     num = st.selectbox('Select', range(0, 20))
     select_num = 1
@@ -96,22 +101,45 @@ def app():
         normal_df = getNormalData(user_engagement)
         elbowPlot(normal_df, num+1)
 
+        st.markdown(
+            '''
+            Select the optimized values for k
+        ''')
         select_num = st.selectbox('Select', range(1, num+1))
 
     if(select_num != 1):
-        st.markdown(
-        '''
-        Based on the image above choose number of clusters
-        ''')
+
         kmeans = KMeans(n_clusters=select_num, random_state=0).fit(normal_df)
-        user_engagement["cluster"]= kmeans.labels_
-        user_engagement
-        scatter3D(user_engagement, y="total_data_volume", x="duration", z="sessions",
-                c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
+        user_engagement.insert(0, 'cluster', kmeans.labels_)
 
         st.markdown(
         '''
-        Save the cluster for satisfaction analysis
+            Number of elements in each cluster
         ''')
-        if st.button('Save CSV'):
-            df_helper.save_csv(user_engagement, '../data/', 'test.csv')
+        st.write(user_engagement['cluster'].value_counts())
+
+        st.markdown(
+        '''
+            2D visualization of cluster
+        ''')
+        scatter(user_engagement, x='total_data_volume', y="duration",
+                c='cluster', s='sessions')
+
+        st.markdown(
+        '''
+            3D visualization of cluster
+        ''')
+        scatter3D(user_engagement, x="total_data_volume", y="duration", z="sessions",
+                  c="cluster", interactive=True)
+        
+        st.warning('Remamber cluster with the list engagement. we need that for satisfaction analysis')
+        st.markdown(
+        '''
+            Save the model for satisfaction analysis
+        ''')
+        if st.button('Save Model'):
+            helper.save_csv(user_engagement,
+                            '../data/user_engagement.csv', index=True)
+
+            with open("../models/user_engagement.pkl", "wb") as f:
+                pickle.dump(kmeans, f)

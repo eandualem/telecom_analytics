@@ -1,10 +1,10 @@
 import sys
 import os
 import sys
+import pickle
 import numpy as np
 import pandas as pd
 import streamlit as st
-from streamlit_plot import *
 from sklearn.cluster import KMeans
 
 sys.path.insert(1, '../scripts')
@@ -13,9 +13,10 @@ from df_outlier import DfOutlier
 from df_overview import DfOverview
 from df_utils import DfUtils
 from df_helper import DfHelper
+from streamlit_plot import *
 
-df_utils = DfUtils()
-df_helper = DfHelper()
+utils = DfUtils()
+helper = DfHelper()
 
 
 @st.cache
@@ -56,18 +57,12 @@ def getExperienceData():
 
 @st.cache
 def getNormalData(df):
-    df_outliers = DfOutlier(df.copy())
-    cols = ["total_avg_rtt",
-            "total_avg_tp",
-            "total_avg_tcp"]
-    df_outliers.replace_outliers_with_iqr(cols)
-    df = df_utils.scale_and_normalize(df_outliers.df, cols)
-    return df
-
+    res_df = utils.scale_and_normalize(df)
+    return res_df
 
 @st.cache
 def get_distortion_andinertia(df, num):
-    distortions, inertias = df_utils.choose_kmeans(df.copy(), num)
+    distortions, inertias = utils.choose_kmeans(df.copy(), num)
     return distortions, inertias
 
 
@@ -118,7 +113,14 @@ def elbowPlot(df, num):
 def app():
     st.title('User Experience Analytics')
     st.header("Top 10 customers per engagement metrics")
-    user_experience = getExperienceData()
+    user_experience = getExperienceData().copy()
+
+    df_outliers = DfOutlier(user_experience)
+    cols = ["total_avg_rtt",
+            "total_avg_tp",
+            "total_avg_tcp"]    
+    df_outliers.replace_outliers_with_iqr(cols)
+    user_experience = df_outliers.df
     plot10(user_experience)
 
     st.header("Clustering customers based on their engagement")
@@ -143,15 +145,39 @@ def app():
         ''')
         kmeans = KMeans(n_clusters=select_num, random_state=0).fit(normal_df)
         user_experience["cluster"] = kmeans.labels_
-        scatter3D(user_experience, x="total_avg_tcp", y="total_avg_rtt", z="total_avg_tp",
-                  c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
+
+        st.markdown(
+        '''
+            Number of elements in each cluster
+        ''')
+        st.write(user_experience['cluster'].value_counts())
 
         st.markdown(
             '''
-        Save the cluster for satisfaction analysis
+            2D visualization of cluster
+        ''')
+        scatter(user_experience, x='total_avg_tcp', y="total_avg_rtt",
+                c='cluster', s='total_avg_tp')
+
+        st.markdown(
+            '''
+            3D visualization of cluster
+        ''')
+        scatter3D(user_experience, x="total_avg_tcp", y="total_avg_rtt", z="total_avg_tp",
+                  c="cluster", interactive=True, rotation=[-1.5, -1.5, 1])
+
+        st.warning(
+            'Remamber the  cluster with worst experience. we need that for satisfaction analysis')
+        st.markdown(
+        '''
+            Save the model for satisfaction analysis
         ''')
         if st.button('Save CSV'):
-            df_helper.save_csv(user_experience, '../data/', 'test.csv')
+            helper.save_csv(user_experience,
+                            '../data/user_experiance.csv', index=True)
+
+            with open("../models/user_experiance.pkl", "wb") as f:
+                pickle.dump(kmeans, f)
 
 
 

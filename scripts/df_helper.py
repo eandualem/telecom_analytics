@@ -33,9 +33,8 @@ class DfHelper():
         except FileNotFoundError:
             print("file not found")
     
-    def save_csv(self, df, csv_path, name, index=False):
+    def save_csv(self, df, csv_path, index=False):
         try:
-            df.to_csv(csv_path + name )
             df.to_csv(csv_path, index=index)
             my_logger.info("Loaded successfully!")
 
